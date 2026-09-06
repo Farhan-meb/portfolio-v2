@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="nocturne.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+<script src="./image-slot.js"></script>
+<style>
+:root{
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,monospace;
+  --page:color-mix(in srgb,var(--color-bg) 82%,#000);
+  --term:oklch(0.79 0.145 152);
+  --term-dim:oklch(0.60 0.110 152);
+  /* one perceptual family: same lightness and chroma, hue varies.
+     section identity only — the violet accent stays the interactive colour */
+  --h1:oklch(0.80 0.130 289);
+  --h2:oklch(0.80 0.130 264);
+  --h3:oklch(0.80 0.130 210);
+  --h4:oklch(0.80 0.130 178);
+  --h5:oklch(0.80 0.130 75);
+  --h6:oklch(0.80 0.130 340);
+  --h1-dim:oklch(0.58 0.110 289);
+  --h2-dim:oklch(0.58 0.110 264);
+  --h3-dim:oklch(0.58 0.110 210);
+  --h4-dim:oklch(0.58 0.110 178);
+  --h5-dim:oklch(0.58 0.110 75);
+  --h6-dim:oklch(0.58 0.110 340);
+}
+body{margin:0;background:var(--page);color:var(--color-text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--color-accent);text-decoration:none}
+a:hover{color:var(--color-accent-400)}
+@keyframes noc-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes noc-pulse{0%,100%{opacity:1}50%{opacity:0.25}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:0.001ms !important;transition-duration:0.001ms !important}}
+</style>
+</helmet>
+
+<div style="position:relative;font-family:var(--font-body);font-size:15px;line-height:1.55;min-height:100vh;background:var(--page)">
+
+  <div data-grid-bg="1" style="position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(to right,rgba(233,233,237,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(233,233,237,0.035) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 20%,transparent 78%)"></div>
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 62% 42% at 12% -8%,oklch(0.42 0.13 289 / 0.36),transparent 68%),radial-gradient(ellipse 55% 38% at 92% 2%,oklch(0.42 0.12 264 / 0.26),transparent 70%),radial-gradient(ellipse 48% 34% at 88% 96%,oklch(0.40 0.10 200 / 0.18),transparent 72%)"></div>
+
+  <div data-cursor-dot="1" style="position:fixed;top:0;left:0;z-index:9999;pointer-events:none;opacity:0;transform:translate(-50px,-50px);transition:width 180ms ease,height 180ms ease,opacity 200ms ease,background 180ms ease;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:999px;background:var(--color-accent);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;color:#0b0d16;overflow:hidden"><span data-cursor-label="1" style="opacity:0;transition:opacity 140ms ease">VIEW</span></div>
+
+  <aside data-sidebar="1" style="position:fixed;top:0;left:0;bottom:0;width:248px;z-index:90;display:flex;flex-direction:column;justify-content:space-between;gap:24px;padding:28px 0 26px;background:color-mix(in srgb,#161826 92%,transparent);border-right:1px solid rgba(233,233,237,0.09)">
+    <div>
+      <a href="#top" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:11px;color:var(--color-text);padding:0 26px;margin-bottom:38px">
+        <span style="width:26px;height:26px;border:1px solid var(--color-accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:var(--color-accent);flex:0 0 auto">M</span>
+        <span style="display:grid;gap:3px">
+          <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em">MAHBUB</span>
+          <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.16em;color:var(--color-neutral-600)">SOFTWARE ENGINEER</span>
+        </span>
+      </a>
+      <nav style="display:flex;flex-direction:column;gap:2px;padding:0 26px">
+        <a href="#about" onClick="{{ nav }}" data-nav="about" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h1)">01</span>PROFILE</a>
+        <a href="#experience" onClick="{{ nav }}" data-nav="experience" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h2)">02</span>EXPERIENCE</a>
+        <a href="#work" onClick="{{ nav }}" data-nav="work" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h3)">03</span>SELECTED WORK</a>
+        <a href="#technology" onClick="{{ nav }}" data-nav="technology" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h4)">04</span>CAPABILITIES</a>
+        <a href="#cv" onClick="{{ openCV }}" data-nav="cv" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h5)">05</span>CURRICULUM VITAE</a>
+        <a href="#contact" onClick="{{ nav }}" data-nav="contact" style="display:flex;align-items:baseline;gap:12px;padding:10px 0 10px 14px;border-left:1px solid rgba(233,233,237,0.14);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;color:var(--color-neutral-500);transition:color 160ms ease,border-color 160ms ease"><span style="font-size:9px;color:var(--h6)">06</span>CONTACT</a>
+      </nav>
+    </div>
+    <div style="padding:0 26px;display:grid;gap:18px">
+      <div style="display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;color:var(--color-neutral-500)">
+        <span style="width:5px;height:5px;border-radius:999px;background:var(--term);animation:noc-pulse 2.4s ease-in-out infinite;flex:0 0 auto"></span>OPEN TO WORK
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em">
+        <a href="https://github.com/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-500)" style-hover="color:var(--color-accent)">GITHUB ↗</a>
+        <a href="https://linkedin.com/in/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-500)" style-hover="color:var(--color-accent)">LINKEDIN ↗</a>
+        <a href="mailto:farhan.meb@gmail.com" style="color:var(--color-neutral-500)" style-hover="color:var(--color-accent)">EMAIL ↗</a>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;color:var(--color-neutral-700);line-height:1.9">VERSION 1.0<br>BUILD 2026 · DE</div>
+    </div>
+  </aside>
+
+  <div data-shell="1" style="padding-left:248px">
+  <header data-topbar="1" style="display:none;position:sticky;top:0;z-index:80;backdrop-filter:blur(14px);background:color-mix(in srgb,#161826 82%,transparent);border-bottom:1px solid rgba(233,233,237,0.08)">
+    <div style="padding:0 clamp(20px,4vw,48px);height:60px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="#top" onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;color:var(--color-text);flex:0 0 auto">
+        <span style="width:24px;height:24px;border:1px solid var(--color-accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:11px;color:var(--color-accent)">M</span>
+        <span style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em">MAHBUB</span>
+      </a>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="background:transparent;border:1px solid rgba(233,233,237,0.16);border-radius:6px;color:var(--color-text);font-family:var(--font-mono);font-size:11px;letter-spacing:0.14em;padding:8px 12px;cursor:pointer">MENU</button>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="border-top:1px solid rgba(233,233,237,0.08);padding:12px clamp(20px,4vw,48px) 20px;display:flex;flex-direction:column;gap:2px">
+        <a href="#about" onClick="{{ nav }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0;border-bottom:1px solid rgba(233,233,237,0.06)">PROFILE</a>
+        <a href="#experience" onClick="{{ nav }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0;border-bottom:1px solid rgba(233,233,237,0.06)">EXPERIENCE</a>
+        <a href="#work" onClick="{{ nav }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0;border-bottom:1px solid rgba(233,233,237,0.06)">SELECTED WORK</a>
+        <a href="#technology" onClick="{{ nav }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0;border-bottom:1px solid rgba(233,233,237,0.06)">CAPABILITIES</a>
+        <a href="#cv" onClick="{{ openCV }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0;border-bottom:1px solid rgba(233,233,237,0.06)">CURRICULUM VITAE</a>
+        <a href="#contact" onClick="{{ nav }}" style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-300);padding:12px 0">CONTACT</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main id="top" style="position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px)">
+
+    <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(32px,5vw,72px);align-items:center;padding:clamp(64px,10vh,120px) 0 clamp(56px,8vh,96px)">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1)">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin-bottom:28px">&lt; SOFTWARE_ENGINEER /&gt;</div>
+        <h1 style="font-size:clamp(38px,6.2vw,68px);line-height:1.04;letter-spacing:-0.03em;margin:0 0 24px;max-width:14ch">Mahbub Abedin Talukdar</h1>
+        <p style="font-size:clamp(16px,1.5vw,19px);line-height:1.62;color:var(--color-neutral-400);max-width:52ch;margin:0 0 12px">Full-stack software engineer with four years of professional experience building SaaS platforms, scalable backend services and high-performance web interfaces for international clients.</p>
+        <p style="font-size:15px;line-height:1.62;color:var(--color-neutral-600);max-width:52ch;margin:0 0 36px">Currently based in Cottbus, Germany, studying for an MSc in Artificial Intelligence at BTU Cottbus-Senftenberg and open to full-stack engineering roles.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="#work" onClick="{{ nav }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-accent);border:1px solid var(--color-accent);border-radius:8px;padding:13px 20px;transition:background 160ms ease" style-hover="background:color-mix(in srgb,var(--color-accent) 12%,transparent)">VIEW PROJECTS <span style="font-size:14px">→</span></a>
+          <a href="#cv" onClick="{{ openCV }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.18);border-radius:8px;padding:13px 20px;transition:border-color 160ms ease,color 160ms ease" style-hover="border-color:rgba(233,233,237,0.4);color:var(--color-text)">VIEW CV</a>
+          <a href="#contact" onClick="{{ nav }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-neutral-500);padding:13px 8px;transition:color 160ms ease" style-hover="color:var(--color-text)">CONTACT ME</a>
+        </div>
+      </div>
+
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1) 120ms,transform 700ms cubic-bezier(0.22,1,0.36,1) 120ms;display:grid;gap:14px;min-width:0">
+        <div style="position:relative;border:1px solid rgba(233,233,237,0.12);border-radius:10px;background:linear-gradient(180deg,rgba(35,37,50,0.85),rgba(22,24,38,0.85));padding:22px 24px 20px">
+          <div style="position:absolute;top:-1px;left:-1px;width:12px;height:12px;border-top:1px solid var(--color-accent);border-left:1px solid var(--color-accent)"></div>
+          <div style="position:absolute;bottom:-1px;right:-1px;width:12px;height:12px;border-bottom:1px solid var(--color-accent);border-right:1px solid var(--color-accent)"></div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--color-neutral-300);padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid rgba(233,233,237,0.1)"><span>SYSTEM</span><span style="color:var(--color-neutral-700);letter-spacing:0.12em">SYS_001</span></div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:11px 20px;font-family:var(--font-mono);font-size:12px">
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">STATUS</dt><dd style="margin:0;text-align:right;color:var(--term);display:flex;align-items:center;gap:8px;justify-content:flex-end"><span style="width:5px;height:5px;border-radius:999px;background:var(--term);animation:noc-pulse 2.4s ease-in-out infinite"></span>ONLINE</dd>
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">ROLE</dt><dd style="margin:0;text-align:right;color:var(--color-neutral-200)">SOFTWARE ENGINEER</dd>
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">STACK</dt><dd style="margin:0;text-align:right;color:var(--color-neutral-200)">FULL STACK</dd>
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">FOCUS</dt><dd style="margin:0;text-align:right;color:var(--color-neutral-200)">AI / WEB / SYSTEMS</dd>
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">BUILD</dt><dd style="margin:0;text-align:right;color:var(--color-neutral-200)">2026</dd>
+            <dt style="color:var(--color-neutral-600);letter-spacing:0.12em">LOCATION</dt><dd style="margin:0;text-align:right;color:var(--color-neutral-200)">GERMANY</dd>
+          </dl>
+        </div>
+        <div style="border:1px solid rgba(233,233,237,0.12);border-radius:10px;background:rgba(22,24,38,0.7);overflow:hidden">
+          <div style="display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid rgba(233,233,237,0.09);background:rgba(35,37,50,0.5)">
+            <div style="display:flex;gap:7px">
+              <span style="width:9px;height:9px;border-radius:999px;background:var(--h6-dim)"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:var(--h5-dim)"></span>
+              <span style="width:9px;height:9px;border-radius:999px;background:var(--term-dim)"></span>
+            </div>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:var(--color-neutral-500)">boot.sh</span>
+          </div>
+          <div style="padding:16px 20px 18px;font-family:var(--font-mono);font-size:12px;line-height:2;min-height:118px">
+            <sc-for list="{{ bootLines }}" as="line" hint-placeholder-count="3">
+              <div style="color:var(--color-neutral-400);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="color:var(--term)">$&nbsp;</span>{{ line }}</div>
+            </sc-for>
+            <span style="display:inline-block;width:7px;height:14px;background:var(--term);vertical-align:-2px;animation:noc-blink 1.1s step-end infinite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="padding:clamp(72px,11vh,132px) 0;scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:48px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h1)">01 / PROFILE</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,72px);align-items:start">
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1)">
+          <h2 style="font-size:clamp(26px,3vw,38px);line-height:1.14;letter-spacing:-0.02em;margin:0 0 28px;max-width:24ch">I build systems that stay fast as they grow.</h2>
+          <p style="color:var(--color-neutral-400);line-height:1.7;margin:0 0 16px;max-width:56ch">Over four years I have worked across the full stack: multi-tenant SaaS architecture, backend services in Node.js and Django, and frontend interfaces where performance is a product requirement rather than an afterthought.</p>
+          <p style="color:var(--color-neutral-400);line-height:1.7;margin:0 0 16px;max-width:56ch">At Technext Limited I led the engineering team behind OneSuite.io, a platform combining CRM, project management, invoicing and eSignature for small and medium businesses. Before that I built a multi-vendor e-commerce platform from scratch at Shohozdeal.</p>
+          <p style="color:var(--color-neutral-400);line-height:1.7;margin:0 0 32px;max-width:56ch">My engineering habits come from competitive programming: roughly 2,000 solved problems, ICPC Dhaka Regionals in 2019 and 2020, and several years judging and setting problems for university contests.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h1) 34%,transparent);color:var(--h1)">TYPESCRIPT</span>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h2) 34%,transparent);color:var(--h2)">REACT / NEXT.JS</span>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h3) 34%,transparent);color:var(--h3)">NODE.JS</span>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h4) 34%,transparent);color:var(--h4)">PYTHON / DJANGO</span>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h5) 34%,transparent);color:var(--h5)">AWS</span>
+            <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-400);border:1px solid rgba(233,233,237,0.14);border-radius:999px;padding:6px 13px;border-color:color-mix(in srgb,var(--h6) 34%,transparent);color:var(--h6)">SYSTEM DESIGN</span>
+          </div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1) 100ms,transform 700ms cubic-bezier(0.22,1,0.36,1) 100ms;border:1px solid rgba(233,233,237,0.12);border-radius:10px;background:linear-gradient(180deg,rgba(35,37,50,0.7),rgba(22,24,38,0.7));overflow:hidden;min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--color-neutral-300);padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.1)"><span>ENGINEER_PROFILE</span><span style="color:var(--color-neutral-700)">SYS_002</span></div>
+          <div style="display:grid;gap:0">
+            <div style="padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.07)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:6px">ROLE</div><div style="font-size:15px;color:var(--color-neutral-200)">Software Engineer</div></div>
+            <div style="padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.07)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:6px">EXPERIENCE</div><div style="font-size:15px;color:var(--color-neutral-200)">4+ years, SaaS and web platforms</div></div>
+            <div style="padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.07)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:6px">SPECIALIZATION</div><div style="font-size:15px;color:var(--color-neutral-200)">Full-stack development</div></div>
+            <div style="padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.07)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:8px">FOCUS</div><div style="display:grid;gap:4px;font-size:15px;color:var(--color-neutral-200)"><span>Scalable systems</span><span>Artificial intelligence</span><span>Web applications</span><span>Product engineering</span></div></div>
+            <div style="padding:16px 22px;border-bottom:1px solid rgba(233,233,237,0.07)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:6px">CURRENTLY</div><div style="font-size:15px;color:var(--color-neutral-200)">MSc Artificial Intelligence</div><div style="font-size:14px;color:var(--color-neutral-500)">BTU Cottbus-Senftenberg, Germany</div></div>
+            <div style="padding:16px 22px"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:6px">LANGUAGES</div><div style="font-size:15px;color:var(--color-neutral-200)">English C1 · German A1</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding:clamp(48px,7vh,88px) 0">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);margin-bottom:44px">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-600);margin-bottom:18px">ENGINEERING PHILOSOPHY</div>
+        <h2 style="font-size:clamp(28px,4vw,46px);letter-spacing:-0.025em;margin:0">Build with intent.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:rgba(233,233,237,0.09);border:1px solid rgba(233,233,237,0.09);border-radius:10px;overflow:hidden">
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease,transform 600ms ease;background:var(--page);padding:26px 24px 30px;min-height:190px" style-hover="background:rgba(35,37,50,0.6)">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h1);margin-bottom:22px">P.01</div>
+          <h3 style="font-size:19px;margin:0 0 10px">Performance</h3>
+          <p style="margin:0;color:var(--color-neutral-500);font-size:14px;line-height:1.65">Systems should be fast and efficient. Measure first, then optimise the path that actually costs time.</p>
+        </article>
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 60ms,transform 600ms ease 60ms,background 200ms ease;background:var(--page);padding:26px 24px 30px;min-height:190px" style-hover="background:rgba(35,37,50,0.6)">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h2);margin-bottom:22px">P.02</div>
+          <h3 style="font-size:19px;margin:0 0 10px">Scalability</h3>
+          <p style="margin:0;color:var(--color-neutral-500);font-size:14px;line-height:1.65">Architecture should support growth. Multi-tenant boundaries, caching and query design decided early, not patched later.</p>
+        </article>
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 120ms,transform 600ms ease 120ms,background 200ms ease;background:var(--page);padding:26px 24px 30px;min-height:190px" style-hover="background:rgba(35,37,50,0.6)">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h3);margin-bottom:22px">P.03</div>
+          <h3 style="font-size:19px;margin:0 0 10px">Maintainability</h3>
+          <p style="margin:0;color:var(--color-neutral-500);font-size:14px;line-height:1.65">Code should remain understandable. Reviewing 50+ pull requests a month teaches you what future readers need.</p>
+        </article>
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 180ms,transform 600ms ease 180ms,background 200ms ease;background:var(--page);padding:26px 24px 30px;min-height:190px" style-hover="background:rgba(35,37,50,0.6)">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h4);margin-bottom:22px">P.04</div>
+          <h3 style="font-size:19px;margin:0 0 10px">User experience</h3>
+          <p style="margin:0;color:var(--color-neutral-500);font-size:14px;line-height:1.65">Engineering exists to improve the product. A 60fps board is a user outcome before it is a technical one.</p>
+        </article>
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 240ms,transform 600ms ease 240ms,background 200ms ease;background:var(--page);padding:26px 24px 30px;min-height:190px" style-hover="background:rgba(35,37,50,0.6)">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h5);margin-bottom:22px">P.05</div>
+          <h3 style="font-size:19px;margin:0 0 10px">Continuous learning</h3>
+          <p style="margin:0;color:var(--color-neutral-500);font-size:14px;line-height:1.65">Technology changes and engineers should too. Currently that means an MSc in Artificial Intelligence.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" style="padding:clamp(72px,11vh,132px) 0;scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:56px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h2)">02 / EXPERIENCE</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+
+      <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,64px);padding-bottom:52px;margin-bottom:52px;border-bottom:1px solid rgba(233,233,237,0.1)">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--h2);margin-bottom:20px">
+            <span>2022</span><span style="flex:1;max-width:80px;height:1px;background:color-mix(in srgb,var(--h2) 55%,transparent)"></span><span>2025</span>
+          </div>
+          <h3 style="font-size:clamp(22px,2.4vw,29px);letter-spacing:-0.02em;margin:0 0 6px">Technext Limited</h3>
+          <div style="font-size:16px;color:var(--color-neutral-300);margin-bottom:14px">Senior Software Engineer</div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--color-neutral-600);display:grid;gap:5px">
+            <span>MAY 2022 — DEC 2025</span>
+            <span>DHAKA, BANGLADESH</span>
+          </div>
+        </div>
+        <div>
+          <p style="margin:0 0 24px;color:var(--color-neutral-400);line-height:1.7;max-width:58ch">Led the development of OneSuite.io, a multi-tenant SaaS platform uniting CRM, project management, client portal, invoicing and eSignature for SMEs. Managed international clients, distributed work across a cross-functional team and reviewed 50+ pull requests a month.</p>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:12px">TECHNOLOGIES</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--color-neutral-300);margin-bottom:26px">React · Next.js · Node.js · TypeScript · MySQL · Prisma · AWS</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:12px">KEY IMPACT</div>
+          <ul style="list-style:none;margin:0;padding:0;display:grid;gap:10px">
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Top 3 Product of the Day on Product Hunt; 3,000+ businesses onboarded</li>
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Reduced processing time for 200K+ records by 95% through query and caching work</li>
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Virtualised a 30,000-card Kanban board: 99% fewer DOM nodes, sustained 60fps</li>
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Improved a UK client's workflow efficiency by over 70% against their previous system</li>
+          </ul>
+        </div>
+      </article>
+
+      <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(24px,4vw,64px)">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-neutral-500);margin-bottom:20px">
+            <span>2021</span><span style="flex:1;max-width:80px;height:1px;background:var(--color-neutral-800)"></span><span>2022</span>
+          </div>
+          <h3 style="font-size:clamp(22px,2.4vw,29px);letter-spacing:-0.02em;margin:0 0 6px">Shohozdeal Ltd</h3>
+          <div style="font-size:16px;color:var(--color-neutral-300);margin-bottom:14px">Software Engineer</div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--color-neutral-600);display:grid;gap:5px">
+            <span>AUG 2021 — APR 2022</span>
+            <span>SYLHET, BANGLADESH</span>
+          </div>
+        </div>
+        <div>
+          <p style="margin:0 0 24px;color:var(--color-neutral-400);line-height:1.7;max-width:58ch">Built a multi-vendor e-commerce SaaS platform from scratch, supporting B2C and C2C models with secure payment processing, vendor onboarding and responsive web and mobile interfaces for 100+ vendors and 10,000+ users.</p>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:12px">TECHNOLOGIES</div>
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--color-neutral-300);margin-bottom:26px">React · Redux · Node.js · Express.js · MongoDB · SWR</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:12px">KEY IMPACT</div>
+          <ul style="list-style:none;margin:0;padding:0;display:grid;gap:10px">
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Cut initial load time by reducing bundle size with React.lazy</li>
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Improved API query performance and response times by 30%</li>
+            <li style="display:flex;gap:12px;color:var(--color-neutral-300);font-size:14px;line-height:1.6"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Introduced a modular React component architecture that reduced code complexity</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section style="margin:clamp(24px,4vh,48px) 0;border-top:1px solid rgba(233,233,237,0.1);border-bottom:1px solid rgba(233,233,237,0.1);padding:clamp(40px,6vh,64px) 0">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:32px 24px">
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease,transform 600ms ease">
+          <div data-count="4" data-suffix="+" style="font-size:clamp(34px,4.4vw,54px);letter-spacing:-0.03em;font-family:var(--font-heading);line-height:1;margin-bottom:12px;color:var(--h1)">0</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">YEARS EXPERIENCE</div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 60ms,transform 600ms ease 60ms">
+          <div data-count="2000" data-suffix="+" style="font-size:clamp(34px,4.4vw,54px);letter-spacing:-0.03em;font-family:var(--font-heading);line-height:1;margin-bottom:12px;color:var(--h2)">0</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">PROBLEMS SOLVED</div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 120ms,transform 600ms ease 120ms">
+          <div data-count="200" data-suffix="K+" style="font-size:clamp(34px,4.4vw,54px);letter-spacing:-0.03em;font-family:var(--font-heading);line-height:1;margin-bottom:12px;color:var(--h3)">0</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">RECORDS OPTIMISED</div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 180ms,transform 600ms ease 180ms">
+          <div data-count="95" data-suffix="%" style="font-size:clamp(34px,4.4vw,54px);letter-spacing:-0.03em;font-family:var(--font-heading);line-height:1;margin-bottom:12px;color:var(--h4)">0</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">PROCESSING TIME REDUCED</div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 240ms,transform 600ms ease 240ms">
+          <div data-count="60" data-suffix=" FPS" style="font-size:clamp(34px,4.4vw,54px);letter-spacing:-0.03em;font-family:var(--font-heading);line-height:1;margin-bottom:12px;color:var(--h5)">0</div>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">UI PERFORMANCE</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" style="padding:clamp(72px,11vh,132px) 0;scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:56px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h3)">03 / SELECTED WORK</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+
+      <article data-cursor="view" onClick="{{ openCase }}" data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1),border-color 200ms ease;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(24px,4vw,56px);align-items:center;border:1px solid rgba(233,233,237,0.1);border-radius:12px;padding:clamp(22px,3vw,34px);margin-bottom:24px;cursor:pointer;background:linear-gradient(180deg,rgba(35,37,50,0.4),transparent)" style-hover="border-color:color-mix(in srgb,var(--color-accent) 55%,transparent)">
+        <div style="min-width:0">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h3);margin-bottom:24px"><span>PROJECT / 001</span><span style="color:var(--color-neutral-700)">2022—2025</span></div>
+          <h3 style="font-size:clamp(26px,3.2vw,40px);letter-spacing:-0.025em;margin:0 0 14px">OneSuite.io</h3>
+          <p style="margin:0 0 28px;color:var(--color-neutral-400);line-height:1.7;max-width:52ch">Multi-tenant SaaS platform unifying CRM, project management, client portal, invoicing, eSignature and white-labeling for small and medium businesses.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:22px;margin-bottom:28px">
+            <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:8px">ROLE</div><div style="font-size:14px;color:var(--color-neutral-200)">Lead Engineer</div></div>
+            <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:8px">STACK</div><div style="font-family:var(--font-mono);font-size:13px;color:var(--color-neutral-300);line-height:1.7">Next.js · Node.js<br>MySQL · Prisma · AWS</div></div>
+            <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:8px">HIGHLIGHT</div><div style="font-size:14px;color:var(--color-accent-400)">Product Hunt Top 3</div></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:18px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em">
+            <span style="color:var(--color-accent)">READ CASE STUDY →</span>
+            <a href="https://onesuite.io/" target="_blank" rel="noopener" onClick="{{ stop }}" style="color:var(--color-neutral-500)">LIVE SITE ↗</a>
+          </div>
+        </div>
+        <div style="position:relative;border:1px solid rgba(233,233,237,0.1);border-radius:8px;overflow:hidden;aspect-ratio:16/10;min-width:0">
+          <image-slot id="proj-onesuite" shape="rect" placeholder="Drop a OneSuite.io product screenshot"></image-slot>
+        </div>
+      </article>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px">
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1),border-color 200ms ease;border:1px solid rgba(233,233,237,0.1);border-radius:12px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column" style-hover="border-color:rgba(233,233,237,0.28)">
+          <div style="position:relative;border:1px solid rgba(233,233,237,0.1);border-radius:8px;overflow:hidden;aspect-ratio:16/9;margin-bottom:26px">
+            <image-slot id="proj-mu-judge" shape="rect" placeholder="Drop an MU Online Judge screenshot"></image-slot>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h4);margin-bottom:18px">PROJECT / 002</div>
+          <h3 style="font-size:24px;letter-spacing:-0.02em;margin:0 0 12px">MU Online Judge</h3>
+          <p style="margin:0 0 24px;color:var(--color-neutral-400);line-height:1.7">An online competitive programming platform where users solve coding challenges, take part in live contests and earn ratings based on their performance.</p>
+          <div style="margin-top:auto">
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">STACK</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);line-height:1.8">Python · Django · PostgreSQL · Redis · Celery · WebSocket</div>
+          </div>
+        </article>
+        <article data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1) 80ms,transform 700ms cubic-bezier(0.22,1,0.36,1) 80ms,border-color 200ms ease;border:1px solid rgba(233,233,237,0.1);border-radius:12px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column" style-hover="border-color:rgba(233,233,237,0.28)">
+          <div style="position:relative;border:1px solid rgba(233,233,237,0.1);border-radius:8px;overflow:hidden;aspect-ratio:16/9;margin-bottom:26px">
+            <image-slot id="proj-jugajug" shape="rect" placeholder="Drop a JugaJug screenshot"></image-slot>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h5);margin-bottom:18px">PROJECT / 003</div>
+          <h3 style="font-size:24px;letter-spacing:-0.02em;margin:0 0 12px">JugaJug</h3>
+          <p style="margin:0 0 24px;color:var(--color-neutral-400);line-height:1.7">A social platform where users connect through helpful posts and chat, and learn C programming through an interactive section that requires solving problems to complete lessons.</p>
+          <div style="margin-top:auto">
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">STACK</div>
+            <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);line-height:1.8">Python · Django · PostgreSQL · Bootstrap · JavaScript</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="technology" style="padding:clamp(72px,11vh,132px) 0;scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:48px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h4)">04 / CAPABILITIES</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+      <div style="display:grid;gap:0;border-top:1px solid rgba(233,233,237,0.1)">
+
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease,transform 600ms ease;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px;padding:26px 0;border-bottom:1px solid rgba(233,233,237,0.1)">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h1);padding-top:6px">LANGUAGES</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span title="Foundation for competitive programming and algorithms" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h1) 60%,transparent);color:var(--h1);background:color-mix(in srgb,var(--h1) 8%,transparent)">[ C / C++ ]</span>
+            <span title="Primary language across frontend and backend work" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h1) 60%,transparent);color:var(--h1);background:color-mix(in srgb,var(--h1) 8%,transparent)">[ JAVASCRIPT ]</span>
+            <span title="Default choice for production application code" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h1) 60%,transparent);color:var(--h1);background:color-mix(in srgb,var(--h1) 8%,transparent)">[ TYPESCRIPT ]</span>
+            <span title="Django services, data work and machine learning coursework" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h1) 60%,transparent);color:var(--h1);background:color-mix(in srgb,var(--h1) 8%,transparent)">[ PYTHON ]</span>
+            <span title="Query design, indexing and optimisation" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h1) 60%,transparent);color:var(--h1);background:color-mix(in srgb,var(--h1) 8%,transparent)">[ SQL ]</span>
+          </div>
+        </div>
+
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 60ms,transform 600ms ease 60ms;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px;padding:26px 0;border-bottom:1px solid rgba(233,233,237,0.1)">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h2);padding-top:6px">FRONTEND</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span title="Component architecture and rendering performance" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ REACT ]</span>
+            <span title="SSR, routing and production deployments" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ NEXT.JS ]</span>
+            <span title="Cross-platform mobile clients with Expo" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ REACT NATIVE ]</span>
+            <span title="Design-system-driven styling" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ TAILWIND CSS ]</span>
+            <span title="Server state, caching and invalidation" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ REACT QUERY ]</span>
+            <span title="Lightweight client state" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h2) 60%,transparent);color:var(--h2);background:color-mix(in srgb,var(--h2) 8%,transparent)">[ ZUSTAND ]</span>
+          </div>
+        </div>
+
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 120ms,transform 600ms ease 120ms;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px;padding:26px 0;border-bottom:1px solid rgba(233,233,237,0.1)">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h3);padding-top:6px">BACKEND</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span title="Scalable service layer and REST APIs" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h3) 60%,transparent);color:var(--h3);background:color-mix(in srgb,var(--h3) 8%,transparent)">[ NODE.JS ]</span>
+            <span title="API routing, middleware and auth" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h3) 60%,transparent);color:var(--h3);background:color-mix(in srgb,var(--h3) 8%,transparent)">[ EXPRESS.JS ]</span>
+            <span title="Full-stack Python applications" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h3) 60%,transparent);color:var(--h3);background:color-mix(in srgb,var(--h3) 8%,transparent)">[ DJANGO ]</span>
+            <span title="Real-time notifications and live contests" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h3) 60%,transparent);color:var(--h3);background:color-mix(in srgb,var(--h3) 8%,transparent)">[ WEBSOCKET ]</span>
+          </div>
+        </div>
+
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 180ms,transform 600ms ease 180ms;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px;padding:26px 0;border-bottom:1px solid rgba(233,233,237,0.1)">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h4);padding-top:6px">DATABASES</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span title="Primary relational store for multi-tenant data" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h4) 60%,transparent);color:var(--h4);background:color-mix(in srgb,var(--h4) 8%,transparent)">[ MYSQL ]</span>
+            <span title="Relational store for Django projects" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h4) 60%,transparent);color:var(--h4);background:color-mix(in srgb,var(--h4) 8%,transparent)">[ POSTGRESQL ]</span>
+            <span title="Document store with Mongoose" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h4) 60%,transparent);color:var(--h4);background:color-mix(in srgb,var(--h4) 8%,transparent)">[ MONGODB ]</span>
+            <span title="Caching and task queues" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h4) 60%,transparent);color:var(--h4);background:color-mix(in srgb,var(--h4) 8%,transparent)">[ REDIS ]</span>
+            <span title="Type-safe data access and migrations" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h4) 60%,transparent);color:var(--h4);background:color-mix(in srgb,var(--h4) 8%,transparent)">[ PRISMA ]</span>
+          </div>
+        </div>
+
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 600ms ease 240ms,transform 600ms ease 240ms;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 32px;padding:26px 0;border-bottom:1px solid rgba(233,233,237,0.1)">
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.18em;color:var(--h5);padding-top:6px">CLOUD / DEVOPS</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span title="EC2, S3 and SES in production" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ AWS ]</span>
+            <span title="Containerised local and deployed environments" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ DOCKER ]</span>
+            <span title="Deployment for smaller services" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ DIGITALOCEAN ]</span>
+            <span title="Automated test and deploy pipelines" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ CI/CD ]</span>
+            <span title="Source control and code review" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ GITHUB ]</span>
+            <span title="Source control and pipelines" style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.06em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px;cursor:default;transition:border-color 180ms ease,color 180ms ease,background 180ms ease" style-hover="border-color:color-mix(in srgb,var(--h5) 60%,transparent);color:var(--h5);background:color-mix(in srgb,var(--h5) 8%,transparent)">[ GITLAB ]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cv" style="padding:clamp(72px,11vh,132px) 0;scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:48px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h5)">05 / CURRICULUM VITAE</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,64px);align-items:center;border:1px solid rgba(233,233,237,0.1);border-radius:12px;padding:clamp(26px,4vw,48px);background:linear-gradient(180deg,rgba(35,37,50,0.45),transparent)">
+        <div>
+          <h2 style="font-size:clamp(28px,3.4vw,42px);letter-spacing:-0.025em;margin:0 0 12px">Curriculum Vitae</h2>
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;color:var(--color-neutral-500);margin:0 0 24px">SOFTWARE ENGINEER / FULL STACK ENGINEER</p>
+          <p style="margin:0 0 32px;color:var(--color-neutral-400);line-height:1.7;max-width:48ch">The full CV is typeset inside this site as a document: experience, education, technical skills, achievements and languages, laid out for the German market.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:12px">
+            <a href="#cv" onClick="{{ openCV }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-accent);border:1px solid var(--color-accent);border-radius:8px;padding:13px 20px" style-hover="background:color-mix(in srgb,var(--color-accent) 12%,transparent)">OPEN CV <span>→</span></a>
+            <a href="uploads/cv_file-1788540033883-uk6f.pdf" download="Mahbub_Abedin_Talukdar_CV.pdf" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.18);border-radius:8px;padding:13px 20px" style-hover="border-color:rgba(233,233,237,0.4)">DOWNLOAD PDF ↓</a>
+          </div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:12px;line-height:2;color:var(--color-neutral-500);border-left:1px solid rgba(233,233,237,0.12);padding-left:clamp(20px,3vw,36px)">
+          <div>DOCUMENT&nbsp;&nbsp;&nbsp;CV / 2026</div>
+          <div>PAGES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</div>
+          <div>MARKET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DE / EU</div>
+          <div>STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--term)">CURRENT</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="padding:clamp(72px,11vh,132px) 0 clamp(56px,8vh,96px);scroll-margin-top:80px">
+      <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1);display:flex;align-items:center;gap:16px;margin-bottom:48px">
+        <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h6)">06 / ESTABLISH CONNECTION</span>
+        <span style="flex:1;height:1px;background:linear-gradient(to right,rgba(233,233,237,0.18),transparent)"></span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,72px);align-items:start">
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1),transform 700ms cubic-bezier(0.22,1,0.36,1)">
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.1em;color:var(--color-neutral-600);margin:0 0 20px;line-height:1.9">Have a project, opportunity, or interesting<br>engineering problem?</p>
+          <h2 style="font-size:clamp(32px,4.6vw,54px);letter-spacing:-0.03em;margin:0 0 32px">Let's talk.</h2>
+          <div style="display:grid;gap:0;border-top:1px solid rgba(233,233,237,0.1);max-width:440px">
+            <a href="mailto:farhan.meb@gmail.com" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(233,233,237,0.1);color:var(--color-neutral-200);font-size:15px" style-hover="color:var(--color-accent)"><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">EMAIL</span>farhan.meb@gmail.com</a>
+            <a href="https://linkedin.com/in/farhan-meb" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(233,233,237,0.1);color:var(--color-neutral-200);font-size:15px" style-hover="color:var(--color-accent)"><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">LINKEDIN</span>in/farhan-meb ↗</a>
+            <a href="https://github.com/farhan-meb" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(233,233,237,0.1);color:var(--color-neutral-200);font-size:15px" style-hover="color:var(--color-accent)"><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">GITHUB</span>farhan-meb ↗</a>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid rgba(233,233,237,0.1);color:var(--color-neutral-400);font-size:15px"><span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">LOCATION</span>Cottbus, Germany</div>
+          </div>
+        </div>
+        <div data-reveal="1" style="opacity:0;transform:translateY(14px);transition:opacity 700ms cubic-bezier(0.22,1,0.36,1) 100ms,transform 700ms cubic-bezier(0.22,1,0.36,1) 100ms;border:1px solid rgba(233,233,237,0.12);border-radius:10px;background:linear-gradient(180deg,rgba(35,37,50,0.55),rgba(22,24,38,0.55));padding:clamp(22px,3vw,32px)">
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-height:300px;justify-content:center;font-family:var(--font-mono)">
+              <div style="font-size:11px;letter-spacing:0.18em;color:var(--color-neutral-600)">TRANSMISSION LOG</div>
+              <div style="font-size:clamp(15px,2vw,19px);letter-spacing:0.1em;color:var(--term)">MESSAGE.TRANSMITTED ✓</div>
+              <p style="font-size:13px;color:var(--color-neutral-500);line-height:1.8;margin:0">Thank you. I will reply from farhan.meb@gmail.com,<br>usually within one working day.</p>
+              <button onClick="{{ resetForm }}" style="margin-top:8px;background:transparent;border:1px solid rgba(233,233,237,0.18);border-radius:8px;color:var(--color-neutral-300);font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;padding:11px 16px;cursor:pointer" style-hover="border-color:rgba(233,233,237,0.4)">SEND ANOTHER</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ submit }}" style="display:grid;gap:20px">
+              <div style="display:grid;gap:8px">
+                <label for="c-name" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">NAME</label>
+                <input id="c-name" name="name" required="required" style="background:rgba(22,24,38,0.9);border:1px solid rgba(233,233,237,0.16);border-radius:6px;color:var(--color-text);font-family:var(--font-mono);font-size:14px;padding:12px 14px;width:100%" style-focus="border-color:var(--color-accent);outline:none">
+              </div>
+              <div style="display:grid;gap:8px">
+                <label for="c-email" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">EMAIL</label>
+                <input id="c-email" name="email" type="email" required="required" style="background:rgba(22,24,38,0.9);border:1px solid rgba(233,233,237,0.16);border-radius:6px;color:var(--color-text);font-family:var(--font-mono);font-size:14px;padding:12px 14px;width:100%" style-focus="border-color:var(--color-accent);outline:none">
+              </div>
+              <div style="display:grid;gap:8px">
+                <label for="c-message" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">MESSAGE</label>
+                <textarea id="c-message" name="message" rows="5" required="required" style="background:rgba(22,24,38,0.9);border:1px solid rgba(233,233,237,0.16);border-radius:6px;color:var(--color-text);font-family:var(--font-mono);font-size:14px;padding:12px 14px;width:100%;resize:vertical" style-focus="border-color:var(--color-accent);outline:none"></textarea>
+              </div>
+              <button type="submit" style="justify-self:start;display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid var(--color-accent);border-radius:8px;color:var(--color-accent);font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;padding:13px 20px;cursor:pointer;transition:background 160ms ease" style-hover="background:color-mix(in srgb,var(--color-accent) 12%,transparent)">SEND MESSAGE <span>→</span></button>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isCV }}" hint-placeholder-val="{{ false }}">
+  <main style="position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:clamp(28px,5vh,56px) clamp(20px,4vw,48px) clamp(56px,8vh,96px)">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:40px">
+      <div>
+        <a href="#top" onClick="{{ goHome }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;color:var(--color-neutral-500);margin-bottom:24px" style-hover="color:var(--color-accent)">← BACK TO PORTFOLIO</a>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h5);margin-bottom:16px">05 / CURRICULUM VITAE</div>
+        <h1 style="font-size:clamp(32px,4.6vw,52px);letter-spacing:-0.03em;margin:0 0 10px">Curriculum Vitae</h1>
+        <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;color:var(--color-neutral-500);margin:0">SOFTWARE ENGINEER / FULL STACK ENGINEER</p>
+      </div>
+      <a href="uploads/cv_file-1788540033883-uk6f.pdf" download="Mahbub_Abedin_Talukdar_CV.pdf" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-accent);border:1px solid var(--color-accent);border-radius:8px;padding:13px 20px" style-hover="background:color-mix(in srgb,var(--color-accent) 12%,transparent)">DOWNLOAD CV ↓</a>
+    </div>
+
+    <article style="max-width:900px;background:#1b1d2b;border:1px solid rgba(233,233,237,0.12);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,0.5);padding:clamp(28px,5vw,64px)">
+      <header style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px 40px;padding-bottom:28px;border-bottom:1px solid rgba(233,233,237,0.14);margin-bottom:36px">
+        <div>
+          <h2 style="font-size:clamp(26px,3.4vw,36px);letter-spacing:-0.025em;margin:0 0 8px">Mahbub Abedin Talukdar</h2>
+          <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:0.14em;color:var(--color-accent-400);margin:0">SOFTWARE ENGINEER</p>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:12px;line-height:1.9;color:var(--color-neutral-400);display:grid;gap:2px">
+          <span>Cottbus, Germany</span>
+          <span>+49 163 1543678</span>
+          <a href="mailto:farhan.meb@gmail.com" style="color:var(--color-neutral-300)">farhan.meb@gmail.com</a>
+          <a href="https://linkedin.com/in/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-300)">linkedin.com/in/farhan-meb</a>
+          <a href="https://github.com/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-300)">github.com/farhan-meb</a>
+        </div>
+      </header>
+
+      <section style="margin-bottom:36px">
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 16px;font-weight:400">PROFILE</h3>
+        <p style="margin:0;color:var(--color-neutral-300);line-height:1.75;max-width:70ch">Full-stack software engineer with 4+ years of experience building and maintaining SaaS, web, and mobile applications for international clients. Strong background in backend systems, frontend performance optimisation, and close collaboration with teams and clients across different time zones. Currently open to full-stack software engineering roles, including remote, on-site, or working student positions.</p>
+      </section>
+
+      <section style="margin-bottom:36px">
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 20px;font-weight:400">EXPERIENCE</h3>
+        <div style="display:grid;gap:28px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 32px">
+            <div>
+              <div style="font-size:17px;color:var(--color-text);margin-bottom:4px">Senior Software Engineer</div>
+              <div style="font-size:14px;color:var(--color-neutral-400)">Technext Limited</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-600);line-height:1.9">
+              <div>MAY 2022 — DEC 2025</div>
+              <div>DHAKA, BANGLADESH</div>
+            </div>
+            <ul style="grid-column:1/-1;list-style:none;margin:8px 0 0;padding:0;display:grid;gap:9px">
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Led the development of OneSuite.io, a SaaS platform uniting CRM, project management, client portal, invoicing and eSignature for SMEs. Achieved Top 3 Product of the Day on Product Hunt; serves 3,000+ businesses.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Delivered full-stack solutions with advanced caching and query optimisation, achieving approximately 70% higher workflow efficiency and 95% faster load times for 200K+ records for a UK-based client.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Architected virtualisation, lazy loading and caching for a 30,000-card Kanban board, reducing DOM nodes by 99% and achieving 60fps performance.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Reviewed 50+ pull requests per month, ensuring clean architecture and maintainable code.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Managed international clients and coordinated cross-functional team members, distributing tasks and ensuring on-time delivery.</li>
+            </ul>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 32px;padding-top:24px;border-top:1px solid rgba(233,233,237,0.08)">
+            <div>
+              <div style="font-size:17px;color:var(--color-text);margin-bottom:4px">Software Engineer</div>
+              <div style="font-size:14px;color:var(--color-neutral-400)">Shohozdeal Ltd</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-600);line-height:1.9">
+              <div>AUG 2021 — APR 2022</div>
+              <div>SYLHET, BANGLADESH</div>
+            </div>
+            <ul style="grid-column:1/-1;list-style:none;margin:8px 0 0;padding:0;display:grid;gap:9px">
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Developed a multi-vendor e-commerce SaaS platform (B2C and C2C), integrating secure payment processing, vendor onboarding and responsive web and mobile interfaces.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Optimised frontend performance using React.lazy, reducing bundle size and cutting initial load times significantly.</li>
+              <li style="display:flex;gap:12px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)"><span style="color:var(--color-accent-600)">—</span>Collaborated on backend APIs with Node.js and Express.js, ensuring efficient data handling with MongoDB.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:36px">
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 20px;font-weight:400">EDUCATION</h3>
+        <div style="display:grid;gap:22px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 32px">
+            <div>
+              <div style="font-size:17px;color:var(--color-text);margin-bottom:4px">MSc Artificial Intelligence</div>
+              <div style="font-size:14px;color:var(--color-neutral-400)">Brandenburgische Technische Universität Cottbus-Senftenberg</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-600);line-height:1.9">
+              <div>OCT 2025 — PRESENT</div>
+              <div>COTTBUS, GERMANY</div>
+            </div>
+            <p style="grid-column:1/-1;margin:4px 0 0;font-size:14px;line-height:1.65;color:var(--color-neutral-500)">Relevant coursework: machine learning and deep learning, natural language processing, computer vision, advanced algorithms and optimisation, data mining and big data analytics, neural networks.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 32px;padding-top:20px;border-top:1px solid rgba(233,233,237,0.08)">
+            <div>
+              <div style="font-size:17px;color:var(--color-text);margin-bottom:4px">BSc (Engg.) Computer Science and Engineering</div>
+              <div style="font-size:14px;color:var(--color-neutral-400)">Metropolitan University</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--color-neutral-600);line-height:1.9">
+              <div>JAN 2017 — JUN 2021</div>
+              <div>SYLHET, BANGLADESH</div>
+            </div>
+            <p style="grid-column:1/-1;margin:4px 0 0;font-size:14px;line-height:1.65;color:var(--color-neutral-500)">GPA 3.89 / 4.0 — equivalent to 1.1 “Sehr Gut” in the German grading system.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:36px">
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 20px;font-weight:400">TECHNICAL SKILLS</h3>
+        <div style="display:grid;gap:0;border-top:1px solid rgba(233,233,237,0.08)">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">LANGUAGES</div><div style="font-size:14px;color:var(--color-neutral-300)">C/C++, JavaScript, TypeScript, Python, SQL</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">FRAMEWORKS</div><div style="font-size:14px;color:var(--color-neutral-300)">Node.js, Express.js, Django, React.js, Next.js, React Native (Expo)</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">DATABASES</div><div style="font-size:14px;color:var(--color-neutral-300)">MySQL, PostgreSQL, MongoDB, Redis, Prisma, Mongoose</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">CLOUD</div><div style="font-size:14px;color:var(--color-neutral-300)">AWS (EC2, S3, SES), DigitalOcean</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">DEVOPS</div><div style="font-size:14px;color:var(--color-neutral-300)">Docker, GitHub, GitLab, CI/CD pipelines</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 32px;padding:14px 0;border-bottom:1px solid rgba(233,233,237,0.08)"><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);padding-top:3px">TOOLS</div><div style="font-size:14px;color:var(--color-neutral-300)">React Query, Zustand, Tailwind CSS, SWR, Celery, WebSocket</div></div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:36px">
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 20px;font-weight:400">ACHIEVEMENTS &amp; CERTIFICATIONS</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px 40px">
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-accent-600);margin-bottom:10px">TECHNEXT LIMITED</div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:var(--color-neutral-300)">Outstanding Team Player 2024 and 2025, for collaboration and contribution to team success.</p>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-accent-600);margin-bottom:10px">MANGTAS</div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:var(--color-neutral-300)">Full Stack Engineer Certificate, November 2022. REF 1194501.</p>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-accent-600);margin-bottom:10px">COMPETITIVE PROGRAMMING</div>
+            <p style="margin:0 0 8px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)">2000+ problems solved across CodeForces, UVa, CodeChef, LightOJ, Toph, AtCoder and LeetCode. 10+ national onsite contests and 300+ online contests.</p>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:var(--color-neutral-500)">Codeforces max rating 1647 (Expert). Codechef max rating 1733.</p>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-accent-600);margin-bottom:10px">CONTESTS</div>
+            <p style="margin:0 0 8px;font-size:14px;line-height:1.65;color:var(--color-neutral-300)">ICPC Dhaka Regional 2019 and 2020 — qualified and participated.</p>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:var(--color-neutral-500)">IUPC: 16th of 42 (NEUB 2017), 17th of 70 (LU 2019), 29th of 161 (SUST 2019).</p>
+          </div>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-accent-600);margin-bottom:10px">ACTIVITIES</div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:var(--color-neutral-300)">Judge and problem setter for university programming contests, 2019–2023. Programming mentor at Grace Hopper Girls' Programming Camp 2019; trained 300+ juniors.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-neutral-500);margin:0 0 16px;font-weight:400">LANGUAGES</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:12px 40px">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:15px;color:var(--color-neutral-200)">English</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent-400)">C1</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:15px;color:var(--color-neutral-200)">German</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent-400)">A1</span><span style="font-size:13px;color:var(--color-neutral-600)">actively learning</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font-size:15px;color:var(--color-neutral-200)">Bengali</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent-400)">Native</span></div>
+        </div>
+      </section>
+    </article>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isCase }}" hint-placeholder-val="{{ false }}">
+  <main style="position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:clamp(28px,5vh,56px) clamp(20px,4vw,48px) clamp(56px,8vh,96px)">
+    <a href="#work" onClick="{{ goHome }}" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.16em;color:var(--color-neutral-500);margin-bottom:32px" style-hover="color:var(--color-accent)">← BACK TO PORTFOLIO</a>
+    <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--h3);margin-bottom:20px">CASE STUDY / PROJECT 001</div>
+    <h1 style="font-size:clamp(34px,5.4vw,62px);letter-spacing:-0.03em;margin:0 0 20px">OneSuite.io</h1>
+    <p style="font-size:clamp(16px,1.6vw,20px);line-height:1.6;color:var(--color-neutral-400);max-width:56ch;margin:0 0 36px">A multi-tenant SaaS platform that replaces four disconnected tools for small and medium businesses: CRM, project management, client portal and invoicing.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:48px">
+      <a href="https://onesuite.io/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;color:var(--color-accent);border:1px solid var(--color-accent);border-radius:8px;padding:13px 20px" style-hover="background:color-mix(in srgb,var(--color-accent) 12%,transparent)">VISIT ONESUITE.IO ↗</a>
+    </div>
+
+    <div style="position:relative;border:1px solid rgba(233,233,237,0.12);border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:56px">
+      <image-slot id="case-hero" shape="rect" placeholder="Drop the OneSuite dashboard screenshot"></image-slot>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:28px;padding:28px 0;border-top:1px solid rgba(233,233,237,0.12);border-bottom:1px solid rgba(233,233,237,0.12);margin-bottom:56px">
+      <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">ROLE</div><div style="font-size:15px;color:var(--color-neutral-200)">Lead Engineer</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">TIMELINE</div><div style="font-size:15px;color:var(--color-neutral-200)">2022 — 2025</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">COMPANY</div><div style="font-size:15px;color:var(--color-neutral-200)">Technext Limited</div></div>
+      <div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600);margin-bottom:10px">SCALE</div><div style="font-size:15px;color:var(--color-neutral-200)">3,000+ businesses</div></div>
+    </div>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 18px;font-weight:400">OVERVIEW</h2>
+      <p style="margin:0 0 14px;color:var(--color-neutral-300);line-height:1.75;max-width:70ch">OneSuite brings customer relationships, project delivery, client communication and billing into one workspace. Each customer runs as an isolated tenant with its own users, roles, branding and billing plan, and a single user can belong to several entities at once.</p>
+      <p style="margin:0;color:var(--color-neutral-300);line-height:1.75;max-width:70ch">I led the engineering team through launch and the two years after it, owning the database and server architecture as well as the frontend architecture of the web and mobile clients.</p>
+    </section>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 18px;font-weight:400">PROBLEM</h2>
+      <p style="margin:0;color:var(--color-neutral-300);line-height:1.75;max-width:70ch">Small teams were stitching together a CRM, a project tool, a document signer and an invoicing service. Data was duplicated across all four, permissions were inconsistent, and reporting across the whole client relationship was impossible. The platform had to unify those workflows without becoming slow as tenants grew into tens of thousands of records.</p>
+    </section>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 18px;font-weight:400">SOLUTION</h2>
+      <ul style="list-style:none;margin:0;padding:0;display:grid;gap:14px;max-width:70ch">
+        <li style="display:flex;gap:14px;color:var(--color-neutral-300);line-height:1.7"><span style="color:var(--color-accent);flex:0 0 auto">→</span>A role- and permission-based architecture supporting multiple entities per user, so agencies can manage several client organisations from one account.</li>
+        <li style="display:flex;gap:14px;color:var(--color-neutral-300);line-height:1.7"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Domain and email white-labeling, multilingual support and feature-based billing, so the product can be resold under a customer's own brand.</li>
+        <li style="display:flex;gap:14px;color:var(--color-neutral-300);line-height:1.7"><span style="color:var(--color-accent);flex:0 0 auto">→</span>Real-time notifications, activity logs, collaboration tools and workflow automation built on a shared event layer rather than per-module logic.</li>
+        <li style="display:flex;gap:14px;color:var(--color-neutral-300);line-height:1.7"><span style="color:var(--color-accent);flex:0 0 auto">→</span>High-performance REST APIs with secure S3 file handling and third-party integrations.</li>
+      </ul>
+    </section>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 18px;font-weight:400">ARCHITECTURE</h2>
+      <div style="border:1px solid rgba(233,233,237,0.12);border-radius:10px;background:rgba(22,24,38,0.8);padding:clamp(20px,3vw,32px);overflow-x:auto">
+        <pre style="margin:0;font-family:var(--font-mono);font-size:12px;line-height:2;color:var(--color-neutral-400)">CLIENTS        Next.js web app          React Native (Expo) app
+                     │                            │
+               ──────┴──────────┬─────────────────┘
+                                ▼
+EDGE           REST API  ·  auth &amp; tenant resolution  ·  rate limiting
+                                │
+               ┌────────────────┼────────────────┐
+               ▼                ▼                ▼
+SERVICES   CRM / projects   billing &amp; eSign   notifications
+               │                │                │
+               └────────────────┼────────────────┘
+                                ▼
+DATA           MySQL + Prisma  ·  Redis cache  ·  S3 objects
+                                │
+INFRA          AWS EC2  ·  SES  ·  CI/CD pipeline</pre>
+      </div>
+    </section>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 18px;font-weight:400">TECHNOLOGY</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Next.js</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">React Native (Expo)</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Node.js</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Express.js</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">TypeScript</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">MySQL</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Prisma</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Redis</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">React Query</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">Zustand</span>
+        <span style="font-family:var(--font-mono);font-size:12px;color:var(--color-neutral-300);border:1px solid rgba(233,233,237,0.14);border-radius:6px;padding:8px 12px">AWS EC2 / S3 / SES</span>
+      </div>
+    </section>
+
+    <section style="margin-bottom:52px">
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 24px;font-weight:400">CHALLENGES</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:rgba(233,233,237,0.1);border:1px solid rgba(233,233,237,0.1);border-radius:10px;overflow:hidden">
+        <div style="background:var(--page);padding:24px">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h3);margin-bottom:14px">C.01 — 200K RECORD QUERIES</div>
+          <p style="margin:0;font-size:14px;line-height:1.7;color:var(--color-neutral-300)">A UK client's transaction views loaded 200,000+ entries. Query restructuring, indexed access paths and a caching layer brought load times down by 95%.</p>
+        </div>
+        <div style="background:var(--page);padding:24px">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h4);margin-bottom:14px">C.02 — 30,000-CARD KANBAN</div>
+          <p style="margin:0;font-size:14px;line-height:1.7;color:var(--color-neutral-300)">Rendering the full board froze the browser. Virtualisation, lazy loading and memoised selectors cut DOM nodes by 99% and held 60fps during drag.</p>
+        </div>
+        <div style="background:var(--page);padding:24px">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--h5);margin-bottom:14px">C.03 — TENANT ISOLATION</div>
+          <p style="margin:0;font-size:14px;line-height:1.7;color:var(--color-neutral-300)">Multiple entities per user made naive scoping unsafe. Permissions were centralised so every query resolves its tenant at the edge, not in feature code.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;color:var(--color-accent-400);margin:0 0 24px;font-weight:400">RESULTS</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:28px;margin-bottom:32px">
+        <div><div style="font-size:clamp(30px,4vw,44px);letter-spacing:-0.03em;line-height:1;margin-bottom:10px;color:var(--h5)">Top 3</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">PRODUCT HUNT, PRODUCT OF THE DAY</div></div>
+        <div><div style="font-size:clamp(30px,4vw,44px);letter-spacing:-0.03em;line-height:1;margin-bottom:10px">3,000+</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">BUSINESSES ONBOARDED</div></div>
+        <div><div style="font-size:clamp(30px,4vw,44px);letter-spacing:-0.03em;line-height:1;margin-bottom:10px">95%</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">FASTER LOAD, 200K RECORDS</div></div>
+        <div><div style="font-size:clamp(30px,4vw,44px);letter-spacing:-0.03em;line-height:1;margin-bottom:10px">70%</div><div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;color:var(--color-neutral-600)">HIGHER WORKFLOW EFFICIENCY</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+        <div style="position:relative;border:1px solid rgba(233,233,237,0.1);border-radius:8px;overflow:hidden;aspect-ratio:16/10"><image-slot id="case-shot-1" shape="rect" placeholder="Screenshot: CRM pipeline"></image-slot></div>
+        <div style="position:relative;border:1px solid rgba(233,233,237,0.1);border-radius:8px;overflow:hidden;aspect-ratio:16/10"><image-slot id="case-shot-2" shape="rect" placeholder="Screenshot: Kanban board"></image-slot></div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <footer style="position:relative;z-index:1;border-top:1px solid rgba(233,233,237,0.1)">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(40px,6vh,64px) clamp(20px,4vw,48px);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px 40px;align-items:start">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:0.14em;color:var(--color-neutral-200);margin-bottom:16px">MAHBUB.ABEDIN.TALUKDAR</div>
+        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--color-neutral-600);line-height:2;margin:0">SOFTWARE ENGINEER<br>BUILDING DIGITAL SYSTEMS.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em">
+        <a href="https://github.com/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-400)" style-hover="color:var(--color-accent)">GITHUB ↗</a>
+        <a href="https://linkedin.com/in/farhan-meb" target="_blank" rel="noopener" style="color:var(--color-neutral-400)" style-hover="color:var(--color-accent)">LINKEDIN ↗</a>
+        <a href="mailto:farhan.meb@gmail.com" style="color:var(--color-neutral-400)" style-hover="color:var(--color-accent)">EMAIL ↗</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--color-neutral-600)">
+        <span>VERSION 1.0</span>
+        <span>BUILD 2026</span>
+        <span>LOCATION DE</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;color:var(--color-neutral-600)">
+        <span style="display:flex;align-items:center;gap:8px"><span style="width:5px;height:5px;border-radius:999px;background:var(--term);animation:noc-pulse 2.4s ease-in-out infinite"></span>SYSTEM STATUS: ONLINE</span>
+        <span>© 2026</span>
+      </div>
+    </div>
+  </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;cursorEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Interaction&quot;},&quot;bootAnimation&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Interaction&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Interaction&quot;}}">
+const BOOT = [
+  "initializing portfolio...",
+  "loading experience [2 records]...",
+  "loading projects [3 records]...",
+  "system ready."
+];
+
+const STACK = [
+  { label: "LANGUAGES", items: [
+    { name: "C / C++", note: "Foundation for competitive programming and algorithms" },
+    { name: "JAVASCRIPT", note: "Primary language across frontend and backend work" },
+    { name: "TYPESCRIPT", note: "Default choice for production application code" },
+    { name: "PYTHON", note: "Django services, data work and machine learning coursework" },
+    { name: "SQL", note: "Query design, indexing and optimisation" }
+  ]},
+  { label: "FRONTEND", items: [
+    { name: "REACT", note: "Component architecture and rendering performance" },
+    { name: "NEXT.JS", note: "SSR, routing and production deployments" },
+    { name: "REACT NATIVE", note: "Cross-platform mobile clients with Expo" },
+    { name: "TAILWIND CSS", note: "Design-system-driven styling" },
+    { name: "REACT QUERY", note: "Server state, caching and invalidation" },
+    { name: "ZUSTAND", note: "Lightweight client state" }
+  ]},
+  { label: "BACKEND", items: [
+    { name: "NODE.JS", note: "Scalable service layer and REST APIs" },
+    { name: "EXPRESS.JS", note: "API routing, middleware and auth" },
+    { name: "DJANGO", note: "Full-stack Python applications" },
+    { name: "WEBSOCKET", note: "Real-time notifications and live contests" }
+  ]},
+  { label: "DATABASES", items: [
+    { name: "MYSQL", note: "Primary relational store for multi-tenant data" },
+    { name: "POSTGRESQL", note: "Relational store for Django projects" },
+    { name: "MONGODB", note: "Document store with Mongoose" },
+    { name: "REDIS", note: "Caching and task queues" },
+    { name: "PRISMA", note: "Type-safe data access and migrations" }
+  ]},
+  { label: "CLOUD / DEVOPS", items: [
+    { name: "AWS", note: "EC2, S3 and SES in production" },
+    { name: "DOCKER", note: "Containerised local and deployed environments" },
+    { name: "DIGITALOCEAN", note: "Deployment for smaller services" },
+    { name: "CI/CD", note: "Automated test and deploy pipelines" },
+    { name: "GITHUB", note: "Source control and code review" },
+    { name: "GITLAB", note: "Source control and pipelines" }
+  ]}
+];
+
+class Component extends DCLogic {
+  state = { view: "home", menuOpen: false, sent: false, boot: 0 };
+
+  get reduced() {
+    return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  componentDidMount() {
+    this.applyResponsive();
+    this._onResize = () => this.applyResponsive();
+    window.addEventListener("resize", this._onResize);
+
+    const grid = document.querySelector("[data-grid-bg]");
+    if (grid && this.props.showGrid === false) grid.style.display = "none";
+
+    if (this.props.bootAnimation === false || this.reduced) {
+      this.setState({ boot: BOOT.length });
+    } else {
+      this._boot = setInterval(() => {
+        this.setState(s => {
+          if (s.boot >= BOOT.length) { clearInterval(this._boot); return s; }
+          return { boot: s.boot + 1 };
+        });
+      }, 520);
+    }
+
+    this.setupCursor();
+    this.observe();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.view !== this.state.view) {
+      window.scrollTo(0, 0);
+      this._activeNav = null;
+      this.observe();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._onResize);
+    clearInterval(this._boot);
+    if (this._onScroll) {
+      window.removeEventListener("scroll", this._onScroll);
+      window.removeEventListener("resize", this._onScroll);
+    }
+    if (this._onMove) window.removeEventListener("mousemove", this._onMove);
+  }
+
+  applyResponsive() {
+    const narrow = window.innerWidth < 1000;
+    const side = document.querySelector("[data-sidebar]");
+    const shell = document.querySelector("[data-shell]");
+    const bar = document.querySelector("[data-topbar]");
+    if (side) side.style.display = narrow ? "none" : "flex";
+    if (shell) shell.style.paddingLeft = narrow ? "0" : "248px";
+    if (bar) bar.style.display = narrow ? "block" : "none";
+    if (!narrow && this.state.menuOpen) this.setState({ menuOpen: false });
+  }
+
+  setNav(id) {
+    Array.from(document.querySelectorAll("[data-nav]")).forEach(a => {
+      const on = a.getAttribute("data-nav") === id;
+      a.style.color = on ? "var(--color-accent)" : "var(--color-neutral-500)";
+      a.style.borderLeftColor = on ? "var(--color-accent)" : "rgba(233,233,237,0.14)";
+    });
+  }
+
+  observe() {
+    this.setNav(this.state.view === "cv" ? "cv" : null);
+    this._reveals = Array.from(document.querySelectorAll("[data-reveal]"));
+    this._counters = Array.from(document.querySelectorAll("[data-count]"));
+    this._sections = this.state.view === "home"
+      ? Array.from(document.querySelectorAll("main section[id]")) : [];
+
+    if (this.reduced) {
+      this._reveals.forEach(el => { el.style.opacity = "1"; el.style.transform = "none"; });
+      this._reveals = [];
+    }
+    if (!this._onScroll) {
+      this._onScroll = () => {
+        if (this._raf) return;
+        this._raf = requestAnimationFrame(() => { this._raf = null; this.scan(); });
+      };
+      window.addEventListener("scroll", this._onScroll, { passive: true });
+      window.addEventListener("resize", this._onScroll);
+    }
+    this.scan();
+  }
+
+  scan() {
+    const vh = window.innerHeight || 800;
+    if (this._reveals && this._reveals.length) {
+      this._reveals = this._reveals.filter(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.94 && r.bottom > 0) {
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          return false;
+        }
+        return true;
+      });
+    }
+    if (this._counters && this._counters.length) {
+      this._counters = this._counters.filter(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.9 && r.bottom > 0) { this.runCounter(el); return false; }
+        return true;
+      });
+    }
+    if (this._sections && this._sections.length) {
+      let current = null;
+      this._sections.forEach(s => {
+        const r = s.getBoundingClientRect();
+        if (r.top <= vh * 0.35) current = s.id;
+      });
+      if (current && current !== this._activeNav) { this._activeNav = current; this.setNav(current); }
+    }
+  }
+
+  runCounter(el) {
+    const target = parseFloat(el.getAttribute("data-count"));
+    const suffix = el.getAttribute("data-suffix") || "";
+    if (this.reduced) { el.textContent = target.toLocaleString("en-US") + suffix; return; }
+    const dur = 1100;
+    const t0 = performance.now();
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased).toLocaleString("en-US") + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  setupCursor() {
+    const dot = document.querySelector("[data-cursor-dot]");
+    const label = document.querySelector("[data-cursor-label]");
+    if (!dot) return;
+    if (this.props.cursorEnabled === false || this.reduced ||
+        window.matchMedia("(hover: none)").matches || window.innerWidth < 900) {
+      dot.style.display = "none";
+      return;
+    }
+    let raf = null, x = 0, y = 0;
+    this._onMove = e => {
+      x = e.clientX; y = e.clientY;
+      dot.style.opacity = "1";
+      const over = e.target.closest && e.target.closest('[data-cursor="view"]');
+      const link = e.target.closest && e.target.closest("a,button,input,textarea,[data-cursor]");
+      if (over) {
+        dot.style.width = "58px"; dot.style.height = "58px";
+        dot.style.margin = "-29px 0 0 -29px";
+        if (label) label.style.opacity = "1";
+      } else {
+        dot.style.width = link ? "22px" : "8px";
+        dot.style.height = link ? "22px" : "8px";
+        dot.style.margin = link ? "-11px 0 0 -11px" : "-4px 0 0 -4px";
+        dot.style.background = link ? "color-mix(in srgb, var(--color-accent) 35%, transparent)" : "var(--color-accent)";
+        if (label) label.style.opacity = "0";
+      }
+      if (!raf) raf = requestAnimationFrame(() => {
+        dot.style.transform = "translate(" + x + "px," + y + "px)";
+        raf = null;
+      });
+    };
+    window.addEventListener("mousemove", this._onMove, { passive: true });
+  }
+
+  scrollTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 72;
+    window.scrollTo({ top, behavior: this.reduced ? "auto" : "smooth" });
+  }
+
+  renderVals() {
+    const view = this.state.view;
+    return {
+      isHome: view === "home",
+      isCV: view === "cv",
+      isCase: view === "case",
+      menuOpen: this.state.menuOpen,
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      bootLines: BOOT.slice(0, this.state.boot),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      goHome: e => { e.preventDefault(); this.setState({ view: "home", menuOpen: false }); },
+      openCV: e => { e.preventDefault(); this.setState({ view: "cv", menuOpen: false }); },
+      openCase: () => this.setState({ view: "case", menuOpen: false }),
+      stop: e => e.stopPropagation(),
+      nav: e => {
+        e.preventDefault();
+        const id = (e.currentTarget.getAttribute("href") || "").replace("#", "");
+        if (this.state.view !== "home") {
+          this.setState({ view: "home", menuOpen: false }, () => setTimeout(() => this.scrollTo(id), 60));
+        } else {
+          this.setState({ menuOpen: false });
+          this.scrollTo(id);
+        }
+      },
+      submit: e => { e.preventDefault(); this.setState({ sent: true }); },
+      resetForm: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>
