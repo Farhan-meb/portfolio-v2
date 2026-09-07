@@ -253,10 +253,16 @@ body {
   }
 }
 
-/* TechChip: hover tints border/text/ground by the category's own hue via --chip-hue. */
+/* TechChip: tinted by the category's own hue via --chip-hue at rest, deepens on hover/focus. */
+.chip-hue {
+  color: color-mix(in srgb, var(--chip-hue) 85%, white);
+  border-color: color-mix(in srgb, var(--chip-hue) 35%, transparent);
+  background: color-mix(in srgb, var(--chip-hue) 14%, transparent);
+}
+
 .chip-hue:hover,
 .chip-hue:focus-visible {
-  color: var(--chip-hue);
-  border-color: color-mix(in srgb, var(--chip-hue) 60%, transparent);
-  background: color-mix(in srgb, var(--chip-hue) 8%, transparent);
+  color: white;
+  border-color: color-mix(in srgb, var(--chip-hue) 75%, transparent);
+  background: color-mix(in srgb, var(--chip-hue) 32%, transparent);
 }
