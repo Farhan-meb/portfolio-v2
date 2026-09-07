@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { site } from "@/content/site";
 import type { ContactFormState } from "@/lib/contact-form";
+import { renderContactEmailHtml } from "@/lib/email-template";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required.").max(120),
@@ -54,6 +55,7 @@ export async function sendContactMessage(
       replyTo: parsed.data.email,
       subject: `New message from ${parsed.data.name}`,
       text: `From: ${parsed.data.name} <${parsed.data.email}>\n\n${parsed.data.message}`,
+      html: renderContactEmailHtml(parsed.data),
     });
 
     if (error) {
