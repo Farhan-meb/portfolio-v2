@@ -1,6 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import { FeedPanel } from "@/components/ui/FeedPanel";
 import { profile } from "@/content/profile";
 import { IdentityPanel } from "./IdentityPanel";
 
@@ -39,16 +38,7 @@ export function Profile() {
           </div>
         </Reveal>
         <Reveal delay={90}>
-          <div className="flex flex-col gap-3.5">
-            <FeedPanel
-              src="/photos/portrait.jpg"
-              alt="Portrait of Mahbub Abedin Talukdar"
-              label="OPERATOR"
-              id="SYS_004"
-              caption="ENGINEER_PROFILE // VERIFIED"
-            />
-            <IdentityPanel />
-          </div>
+          <IdentityPanel />
         </Reveal>
       </div>
     </section>

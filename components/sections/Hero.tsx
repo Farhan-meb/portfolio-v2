@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { OutlineButtonLink } from "@/components/ui/OutlineButton";
-import { FeedPanel } from "@/components/ui/FeedPanel";
 import { hero } from "@/content/hero";
 import { site } from "@/content/site";
 import { SystemPanel } from "./SystemPanel";
@@ -40,14 +39,6 @@ export function Hero() {
       </div>
 
       <div className="flex min-w-0 flex-col gap-3.5 lg:min-w-[340px]">
-        <FeedPanel
-          src="/photos/desk-feed.jpg"
-          alt="Mahbub working across two monitors"
-          label="FEED"
-          id="SYS_003"
-          caption="CURRENT SESSION // COTTBUS, DE"
-          priority
-        />
         <SystemPanel />
         <BootTerminal />
       </div>
