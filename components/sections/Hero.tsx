@@ -4,6 +4,7 @@ import { FeedPanel } from "@/components/ui/FeedPanel";
 import { hero } from "@/content/hero";
 import { site } from "@/content/site";
 import { SystemPanel } from "./SystemPanel";
+import { BootTerminal } from "./BootTerminal";
 
 export function Hero() {
   return (
@@ -45,10 +46,10 @@ export function Hero() {
           label="FEED"
           id="SYS_003"
           caption="CURRENT SESSION // COTTBUS, DE"
-          ratio="16/9"
           priority
         />
         <SystemPanel />
+        <BootTerminal />
       </div>
     </section>
   );
