@@ -8,6 +8,7 @@ export function FeedPanel({
   id,
   caption,
   priority = false,
+  ratio = "4/3",
 }: {
   src: string;
   alt: string;
@@ -15,6 +16,7 @@ export function FeedPanel({
   id: string;
   caption?: string;
   priority?: boolean;
+  ratio?: "4/3" | "16/9";
 }) {
   return (
     <Panel corners className="overflow-hidden p-0">
@@ -25,7 +27,7 @@ export function FeedPanel({
           {id}
         </span>
       </div>
-      <div className="relative aspect-[4/3]">
+      <div className={`relative ${ratio === "16/9" ? "aspect-[16/9]" : "aspect-[4/3]"}`}>
         <Image
           src={src}
           alt={alt}
