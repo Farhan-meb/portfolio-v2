@@ -59,7 +59,7 @@ const jsonLd = {
   url: site.url,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Cottbus",
+    addressLocality: "Berlin",
     addressCountry: "DE",
   },
   sameAs: [site.linkedinUrl, site.githubUrl],

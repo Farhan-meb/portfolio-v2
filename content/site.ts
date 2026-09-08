@@ -3,7 +3,7 @@ export const site = {
   firstName: "Mahbub",
   initial: "M",
   title: "Software Engineer",
-  location: "Cottbus, Germany",
+  location: "Berlin, Germany",
   locationShort: "DE",
   phone: "+49 163 1543678",
   email: "farhan.meb@gmail.com",

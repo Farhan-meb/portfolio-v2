@@ -2,7 +2,7 @@ export const hero = {
   eyebrow: "< SOFTWARE_ENGINEER />",
   paragraphs: [
     "Full-stack software engineer with four years of professional experience building SaaS platforms, scalable backend services and high-performance web interfaces for international clients.",
-    "Currently based in Cottbus, Germany, studying for an MSc in Artificial Intelligence at BTU Cottbus-Senftenberg and open to full-stack engineering roles.",
+    "Currently based in Berlin, Germany, studying for an MSc in Artificial Intelligence at BTU Cottbus-Senftenberg and open to full-stack engineering roles.",
   ],
 } as const;
 
